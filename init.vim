@@ -6,7 +6,8 @@
 " Packer插件管理
 " lua require('plugins')
 " 快捷键映射
- lua require('keybindings')
+lua require('keybindings')
+
 " 皮肤设置
 " https://github.com/ellisonleao/gruvbox.nvim
 " set background=dark " or light if you want light mode
@@ -62,6 +63,7 @@ Plug 'scrooloose/nerdcommenter'
 " file 
 Plug 'preservim/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'jiangmiao/auto-pairs'
 
 call plug#end()
 " ---------------------------------------------------------------
@@ -163,3 +165,7 @@ let g:NERDTreeGitStatusIndicatorMapCustom = {
                 \ 'Unknown'   :'?',
                 \ }
 " ------------------------------------
+"
+" autopairs config ----------
+"
+" ------------------------------------------
