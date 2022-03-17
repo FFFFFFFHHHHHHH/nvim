@@ -2,7 +2,7 @@
 " === Auto load for first time uses
       
 
- lua require('basic')
+lua require('basic')
 " Packer插件管理
 " lua require('plugins')
 " 快捷键映射
@@ -65,15 +65,18 @@ Plug 'preservim/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'jiangmiao/auto-pairs'
 
+"  ==== file find ===== 
+Plug 'nvim-lua/plenary.nvim'
+Plug 'nvim-telescope/telescope.nvim'
 call plug#end()
 " ---------------------------------------------------------------
 color snazzy
 let g:SnazzyTransparent = 1
 
 " coc plug list:
-let g:coc_global_extensions = ['coc-json', 'coc-vimlsp','coc-marketplace']
+let g:coc_global_extensions = ['coc-json', 'coc-vimlsp', 'coc-marketplace', 'coc-clangd']
 
-" somathing coc config:
+" ==== somathing coc config =====
 
 set updatetime=100
 set shortmess+=c
@@ -97,6 +100,7 @@ nmap <silent> <LEADER>- <Plug>(coc-diagnostic-prev)
 nmap <silent> <LEADER>+ <Plug>(coc-diagnostic-next)
 
 nmap <silent> gd <Plug>(coc-definition)
+nmap <silent> gD :tab sp<CR><Plug>(coc-definition)
 nmap <silent> gy <Plug>(coc-type-definition)
 nmap <silent> gi <Plug>(coc-implementation)
 nmap <silent> gr <Plug>(coc-references)
@@ -165,7 +169,21 @@ let g:NERDTreeGitStatusIndicatorMapCustom = {
                 \ 'Unknown'   :'?',
                 \ }
 " ------------------------------------
-"
-" autopairs config ----------
-"
-" ------------------------------------------
+" ========== clangd ==========
+"" Let clangd fully control code completion
+let g:ycm_clangd_uses_ycmd_caching = 0
+" Use installed clangd, not YCM-bundled clangd which doesn't get updates.
+let g:ycm_clangd_binary_path = exepath("clangd")
+
+" ========== telescope(file finder) ==========
+nnoremap ;f <cmd>Telescope find_files<cr>
+nnoremap ;g <cmd>Telescope live_grep<cr>
+nnoremap ;b <cmd>Telescope buffers<cr>
+nnoremap ;h <cmd>Telescope help_tags<cr>
+
+" test
+" resize the split window
+map <up> :res +5<CR>
+map <down> :res -5<CR>
+map <left> :vertical resize-5<CR>
+map <right> :vertical resize+5<CR>
