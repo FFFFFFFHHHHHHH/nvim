@@ -30,6 +30,8 @@ map('n', 'sk', ':set nosplitbelow<CR>:split<CR>', opt)
 
 
 map('n', 'tt', ':tabe<CR>', opt)
-map('n', 'th', ':-tabnext<CR>', opt)
-map('n', 'tl', ':+tabnext<CR>', opt)
+map('n', 'E', ':-tabnext<CR>', opt)
+map('n', 'R', ':+tabnext<CR>', opt)
+map('n', 'M', ':tabe ~/', opt)
+
 

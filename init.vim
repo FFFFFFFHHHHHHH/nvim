@@ -1,6 +1,4 @@
-
-" === Auto load for first time uses
-      
+"=== Auto load for first time uses
 
 lua require('basic')
 " Packer插件管理
@@ -16,21 +14,9 @@ lua require('keybindings')
 " 插件配置
 "lua require('plugin-config/which-key')
 "lua require('plugin-config/nvim-treesitter')
-"lua require('plugin-config/telescope')
-"lua require('plugin-config/nvim-autopairs')
 "lua require('plugin-config/nvim-tree')
-"lua require('plugin-config/bufferline')
 "lua require('plugin-config/surround')
-"lua require('plugin-config/comment')
 "lua require('plugin-config/nvim-colorizer')
-"lua require('plugin-config/rust-tools')
-"
-"" lsp
-"lua require('lsp/nvim-cmp-config')
-"lua require('lsp/diagnostic_signs')
-"lua require('lsp/language_servers')
-"
-"
 nnoremap < <<
 nnoremap > >>
 let mapleader=" "
@@ -68,6 +54,14 @@ Plug 'jiangmiao/auto-pairs'
 "  ==== file find ===== 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
+
+" ========== markdown ==========
+Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app && yarn install'  }
+
+" ===
+" === show the buffer in line
+" ===
+Plug 'bling/vim-bufferline'
 call plug#end()
 " ---------------------------------------------------------------
 color snazzy
@@ -75,6 +69,30 @@ let g:SnazzyTransparent = 1
 
 " coc plug list:
 let g:coc_global_extensions = ['coc-json', 'coc-vimlsp', 'coc-marketplace', 'coc-clangd']
+
+
+" ========== compile and run ==========
+map <LEADER>r :call CompileAndRun()<CR>
+func! CompileAndRun() 
+  exec "w"
+  if &filetype == 'cpp'
+    set splitbelow
+    exec "!g++ -std=c++17 % -Wall -o %<"
+    :sp
+    :res -10
+    :term ./%< && rm ./%<
+  elseif &filetype == 'markdown'
+    exec "MarkdownPreview"
+  endif
+endfunction
+
+map C :call CompileFunction()<CR>
+func! ComplieFunction() 
+  exec "w"
+  if &filetype == 'cpp'
+    exec "!g++ % -o %<"
+  endif
+endfunction
 
 " ==== somathing coc config =====
 
@@ -177,7 +195,10 @@ let g:ycm_clangd_binary_path = exepath("clangd")
 
 " ========== telescope(file finder) ==========
 nnoremap ;f <cmd>Telescope find_files<cr>
+nnoremap tf :tabe<CR>:Telescope find_files<cr>
+map ;F sl<cmd>Telescope find_files<cr>
 nnoremap ;g <cmd>Telescope live_grep<cr>
+nnoremap ;G :tabe<CR>:Telescope live_grep<cr>
 nnoremap ;b <cmd>Telescope buffers<cr>
 nnoremap ;h <cmd>Telescope help_tags<cr>
 
@@ -187,3 +208,34 @@ map <up> :res +5<CR>
 map <down> :res -5<CR>
 map <left> :vertical resize-5<CR>
 map <right> :vertical resize+5<CR>
+
+" ===
+" === markdown
+" ===
+let g:mkdp_auto_start = 0
+let g:mkdp_auto_close = 1
+let g:mkdp_refresh_slow = 0
+let g:mkdp_command_for_global = 0
+let g:mkdp_open_to_the_world = 0
+let g:mkdp_open_ip = ''
+let g:mkdp_browser = ''
+let g:mkdp_echo_preview_url = 0
+let g:mkdp_browserfunc = ''
+let g:mkdp_preview_options = {
+    \ 'mkit': {},
+    \ 'katex': {},
+    \ 'uml': {},
+    \ 'maid': {},
+    \ 'disable_sync_scroll': 0,
+    \ 'sync_scroll_type': 'middle',
+    \ 'hide_yaml_meta': 1,
+    \ 'sequence_diagrams': {},
+    \ 'flowchart_diagrams': {},
+    \ 'content_editable': v:false,
+    \ 'disable_filename': 0
+    \ }
+let g:mkdp_markdown_css = ''
+let g:mkdp_highlight_css = ''
+let g:mkdp_port = ''
+let g:mkdp_page_title = '「${name}」'
+let g:mkdp_filetypes = ['markdown']
