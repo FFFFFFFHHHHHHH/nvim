@@ -28,10 +28,5 @@ map('n', 'sh', ':set nosplitright<CR>:vsplit<CR>', opt)
 map('n', 'sj', ':set splitbelow<CR>:split<CR>', opt)
 map('n', 'sk', ':set nosplitbelow<CR>:split<CR>', opt)
 
-
 map('n', 'tt', ':tabe<CR>', opt)
-map('n', 'E', ':-tabnext<CR>', opt)
-map('n', 'R', ':+tabnext<CR>', opt)
-map('n', 'M', ':tabe ~/', opt)
-
 

@@ -1,35 +1,32 @@
 "=== Auto load for first time uses
 
 lua require('basic')
-" Packer插件管理
-" lua require('plugins')
-" 快捷键映射
 lua require('keybindings')
-
-" 皮肤设置
-" https://github.com/ellisonleao/gruvbox.nvim
-" set background=dark " or light if you want light mode
-" colorscheme gruvbox
 
 " 插件配置
 "lua require('plugin-config/which-key')
 "lua require('plugin-config/nvim-treesitter')
-"lua require('plugin-config/nvim-tree')
 "lua require('plugin-config/surround')
 "lua require('plugin-config/nvim-colorizer')
-nnoremap < <<
-nnoremap > >>
+"
 let mapleader=" "
 noremap <LEADER>k <C-w>k
 noremap <LEADER>j <C-w>j
 noremap <LEADER>h <C-w>h
 noremap <LEADER>l <C-w>l 
+noremap <LEADER>b :bnext<CR>
+noremap <LEADER>B :bprev<CR>
+cnoremap <expr> %% getcmdtype() == ':' ? expand('%:h').'/' : '%%'
 
-" inoremap ' ''<ESC>i
-" inoremap " ""<ESC>i
-" inoremap ( ()<ESC>i
-" inoremap () ()<ESC>a
-" inoremap [ []<ESC>i
+nnoremap <silent> <C-l> :<C-u>nohlsearch<CR><C-l>
+
+set path+=~/.config/nvim/**
+
+set spell
+
+set nocompatible
+filetype plugin on
+runtime macros/matchit.vim
 
 " ------------------------ plug ---------------------------------
 call plug#begin('$HOME/.config/nvim/plugged') 
@@ -51,6 +48,8 @@ Plug 'preservim/nerdtree'
 Plug 'Xuyuanp/nerdtree-git-plugin'
 Plug 'jiangmiao/auto-pairs'
 
+Plug 'tpope/vim-surround'
+
 "  ==== file find ===== 
 Plug 'nvim-lua/plenary.nvim'
 Plug 'nvim-telescope/telescope.nvim'
@@ -70,7 +69,6 @@ let g:SnazzyTransparent = 1
 " coc plug list:
 let g:coc_global_extensions = ['coc-json', 'coc-vimlsp', 'coc-marketplace', 'coc-clangd']
 
-
 " ========== compile and run ==========
 map <LEADER>r :call CompileAndRun()<CR>
 func! CompileAndRun() 
@@ -86,15 +84,16 @@ func! CompileAndRun()
   endif
 endfunction
 
-map C :call CompileFunction()<CR>
-func! ComplieFunction() 
-  exec "w"
-  if &filetype == 'cpp'
-    exec "!g++ % -o %<"
-  endif
-endfunction
-
 " ==== somathing coc config =====
+"
+
+xnoremap * :<C-u>call <SID>VsetSearch('/')<CR>/<C-R>=@/<CR><CR>
+function! s:VsetSearch(cmdtype) 
+  let temp = @s
+  norm! gv"sy
+  let @/ = '\V' . substitute(escape(@s, a:cmdtype.'\'), '\n', '\\n', 'g')
+  let @s = temp
+endfunction
 
 set updatetime=100
 set shortmess+=c
