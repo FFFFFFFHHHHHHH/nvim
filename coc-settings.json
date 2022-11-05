@@ -1,6 +1,10 @@
 {
-  "coc.preferences.extensionUpdateCheck": "daily",
-  "suggest.noselect": true,
-  "suggest.enablePreselect": false,
-  "clangd.path": "~/.config/coc/extensions/coc-clangd-data/install/13.0.0/clangd_13.0.0/bin/clangd"
+  "languageserver": {
+  "clangd": {
+    "command": "clangd",// "--clang-tidy"],
+    "rootPatterns": ["compile_flags.txt", "compile_commands.json"],
+    "filetypes": ["c", "cc", "cpp", "c++", "objc", "objcpp"],
+    "arguments": ["--background-index", "--suggest-missing-includes", "--clang-tidy", "--completion-style=detailed"]
+    }
+  }
 }
